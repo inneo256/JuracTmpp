@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Кабинет админа</title>
+    <script th:inline="javascript">
+        const themes = {
+            pink: {
+                background: [[${pinkTheme.background}]],
+                textColor: [[${pinkTheme.textColor}]],
+                buttonColor: [[${pinkTheme.buttonColor}]],
+                cardBackground: [[${pinkTheme.cardBackground}]]
+            },
+            dark: {
+                background: [[${darkTheme.background}]],
+                textColor: [[${darkTheme.textColor}]],
+                buttonColor: [[${darkTheme.buttonColor}]],
+                cardBackground: [[${darkTheme.cardBackground}]]
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+        .card {
+            padding: 40px;
+            border-radius: 12px;
+            width: 450px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: background 0.3s;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 15px;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .divider {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        .btn {
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin: 8px 0;
+            font-size: 14px;
+            display: block;
+            text-align: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+    </style>
+</head>
+<body id="body">
+<div class="card" id="card">
+    <h2>🛠 Кабинет администратора</h2>
+    <p>Статистика сайта в реальном времени</p>
+
+    <hr class="divider"/>
+
+    <div class="stat-item">
+        <span>👨‍💻 Фрилансеров</span>
+        <span class="stat-number" th:text="${freelancerCount}">0</span>
+    </div>
+    <div class="stat-item">
+        <span>💼 Клиентов</span>
+        <span class="stat-number" th:text="${clientCount}">0</span>
+    </div>
+    <div class="stat-item">
+        <span>👥 Всего пользователей</span>
+        <span class="stat-number" th:text="${totalUsers}">0</span>
+    </div>
+
+    <hr class="divider"/>
+
+    <div class="stat-item">
+        <span>📋 Заказов создано</span>
+        <span class="stat-number" th:text="${orderCount}">0</span>
+    </div>
+    <div class="stat-item">
+        <span>📋 Шаблонов склонировано</span>
+        <span class="stat-number" th:text="${cloneCount}">0</span>
+    </div>
+
+    <hr class="divider"/>
+
+    <button class="btn" id="themeBtn" onclick="toggleTheme()">🎨 Сменить тему</button>
+    <a class="btn" id="logoutBtn" href="/auth">🚪 Выйти</a>
+</div>
+
+<script>
+    let currentTheme = 'pink';
+
+    function applyTheme(themeName) {
+        const t = themes[themeName];
+        document.getElementById('body').style.background = t.background;
+        document.getElementById('body').style.color = t.textColor;
+        document.getElementById('card').style.background = t.cardBackground;
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.style.background = t.buttonColor;
+        });
+    }
+
+    function toggleTheme() {
+        currentTheme = currentTheme === 'pink' ? 'dark' : 'pink';
+        applyTheme(currentTheme);
+    }
+
+    applyTheme(currentTheme);
+</script>
+</body>
+</html>

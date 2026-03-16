@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Вход для администратора</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #121212;
+            color: white;
+        }
+        .card {
+            background: #1e1e1e;
+            padding: 40px;
+            border-radius: 12px;
+            width: 350px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: white;
+            box-sizing: border-box;
+        }
+        .btn {
+            background: #880e4f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .error {
+            color: #ff6b6b;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>🔐 Вход для администратора</h2>
+    <p style="font-size:13px; opacity:0.6;">Только для авторизованных лиц</p>
+    <input type="text" id="login" placeholder="Логин"/>
+    <input type="password" id="password" placeholder="Пароль"/>
+    <button class="btn" onclick="adminLogin()">Войти</button>
+    <p class="error" id="errorMsg" style="display:none;">❌ Неверный логин или пароль</p>
+</div>
+<script>
+    function adminLogin() {
+        const login = document.getElementById('login').value;
+        const password = document.getElementById('password').value;
+        if (login === 'admin' && password === 'admin123') {
+            window.location.href = '/admin';
+        } else {
+            document.getElementById('errorMsg').style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>

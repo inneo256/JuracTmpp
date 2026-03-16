@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>FreelanceHub</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f3f2ef;
+        }
+
+        /* Верхняя панель */
+        .navbar {
+            background-color: white;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0a66c2;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #0a66c2;
+        }
+
+        /* Поиск */
+        .search-bar {
+            margin: 20px 0;
+            display: flex;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 5px 0 0 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .search-bar button {
+            padding: 8px 14px;
+            border: none;
+            background-color: #0a66c2;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #004182;
+        }
+
+        /* Основной контейнер */
+        .container {
+            width: 1000px;
+            margin: 20px auto;
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Левая колонка */
+        .sidebar {
+            width: 250px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+        }
+
+        .categories ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .categories li {
+            padding: 5px 0;
+            cursor: pointer;
+            color: #0a66c2;
+        }
+
+        .categories li:hover {
+            text-decoration: underline;
+        }
+
+        /* Центральная лента */
+        .feed {
+            flex: 1;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+        }
+
+        .btn {
+            background-color: #0a66c2;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #004182;
+        }
+
+        /* Правая колонка */
+        .rightbar {
+            width: 250px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .rightbar h3 {
+            margin-top: 0;
+        }
+
+        .rightbar p {
+            margin: 5px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo">FreelanceHub</div>
+    <div class="nav-links">
+        <a href="#">Главная</a>
+        <a href="#">Companies</a>
+        <a href="#">Messages</a>
+        <a href="#">Notifications</a>
+        <a href="#">Profile</a>
+        <a href="/auth">Войти</a>
+    </div>
+</div>
+
+<!-- Основной блок -->
+<div class="container">
+
+    <!-- Левая колонка -->
+    <div class="sidebar">
+        <h3>Категории</h3>
+        <div class="categories">
+            <ul>
+                <li>Дизайн</li>
+                <li>IT & Программирование</li>
+                <li>Маркетинг</li>
+                <li>Письменные услуги</li>
+                <li>Видео & Анимация</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- Центральная лента -->
+    <div class="feed">
+        <!-- Поиск -->
+        <div class="search-bar">
+            <input type="text" placeholder="Поиск заказов...">
+            <button>Найти</button>
+        </div>
+        <div class="feed">
+
+
+            <div id="postForm" class="card" style="display:none;">
+                <h3>Новый пост</h3>
+                <label>Тип поста:</label>
+                <select id="postType">
+                    <option value="Работа">Поиск работы</option>
+                    <option value="Работник">Поиск работника</option>
+                </select>
+                <br><br>
+
+                <label>Заголовок:</label>
+                <input type="text" id="postTitle" placeholder="Название задачи">
+                <br><br>
+
+                <label>Описание:</label>
+                <textarea id="postDescription" placeholder="Описание задачи"></textarea>
+                <br><br>
+
+                <label>Бюджет:</label>
+                <input type="number" id="postBudget" placeholder="300">
+                <br><br>
+
+                <label>Навыки:</label>
+                <div id="skillsContainer">
+                    <input type="text" class="skillInput" placeholder="Добавить навык">
+                </div>
+                <button type="button" class="btn" id="addSkillBtn">Добавить навык</button>
+                <br><br>
+
+                <button class="btn" id="submitPostBtn">Создать пост</button>
+                <button class="btn" id="cancelPostBtn" style="background-color:gray;">Отмена</button>
+            </div>
+
+        </div>
+        <!-- Посты -->
+        <div class="card">
+            <h3>Создать лендинг</h3>
+            <p>Нужен сайт для стартапа. Срок — 5 дней.</p>
+            <p><strong>Бюджет:</strong> 300$</p>
+
+        </div>
+
+        <div class="card">
+            <h3>Дизайн логотипа</h3>
+            <p>Разработать логотип для IT-компании.</p>
+            <p><strong>Бюджет:</strong> 100$</p>
+
+        </div>
+
+        <div class="card">
+            <h3>SEO продвижение</h3>
+            <p>Оптимизация сайта для поисковых систем. Срок — 10 дней.</p>
+            <p><strong>Бюджет:</strong> 200$</p>
+        </div>
+
+    </div>
+
+    <!-- Правая колонка -->
+    <div class="rightbar">
+        <h3>Рекомендуемые фрилансеры</h3>
+        <p>Анна — UI/UX дизайнер</p>
+        <p>Максим — Backend разработчик</p>
+        <p>Ольга — Маркетолог</p>
+        <hr>
+        <h3>Топ компании</h3>
+        <p>TechStart</p>
+        <p>DesignPro</p>
+        <p>MarketGuru</p>
+    </div>
+
+</div>
+
+<footer>
+    © 2026 FreelanceHub
+</footer>
+
+<script>
+    function apply() {
+        alert("Вы успешно откликнулись на заказ!");
+    }
+</script>
+
+</body>
+</html>
+
+<!-- Скрипт для формы добавления поста -->
+<script>
+    const addPostBtn = document.getElementById('addPostBtn');
+    const postForm = document.getElementById('postForm');
+    const addSkillBtn = document.getElementById('addSkillBtn');
+    const skillsContainer = document.getElementById('skillsContainer');
+    const submitPostBtn = document.getElementById('submitPostBtn');
+    const cancelPostBtn = document.getElementById('cancelPostBtn');
+    const feed = document.querySelector('.feed');
+
+    addPostBtn.addEventListener('click', () => {
+        postForm.style.display = 'block';
+    });
+
+    cancelPostBtn.addEventListener('click', () => {
+        postForm.style.display = 'none';
+        clearForm();
+    });
+
+    addSkillBtn.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'skillInput';
+        input.placeholder = 'Добавить навык';
+        skillsContainer.appendChild(input);
+    });
+
+    submitPostBtn.addEventListener('click', () => {
+        const type = document.getElementById('postType').value;
+        const title = document.getElementById('postTitle').value;
+        const description = document.getElementById('postDescription').value;
+        const budget = document.getElementById('postBudget').value;
+        const skills = Array.from(document.querySelectorAll('.skillInput'))
+            .map(input => input.value)
+            .filter(s => s.trim() !== "");
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <h3>${title}</h3>
+            <p>${description}</p>
+            <p><strong>Бюджет:</strong> ${budget}$</p>
+            <p><strong>Навыки:</strong> ${skills.join(', ')}</p>
+            <button class="btn" onclick="apply()">Откликнуться</button>
+        `;
+        feed.insertBefore(card, postForm.nextSibling);
+
+        postForm.style.display = 'none';
+        clearForm();
+    });
+
+    function clearForm() {
+        document.getElementById('postTitle').value = '';
+        document.getElementById('postDescription').value = '';
+        document.getElementById('postBudget').value = '';
+        document.getElementById('postType').value = 'Работа';
+        skillsContainer.innerHTML = '<input type="text" class="skillInput" placeholder="Добавить навык">';
+    }
+
+    function apply() {
+        alert("Вы успешно откликнулись на заказ!");
+    }
+</script>
+
