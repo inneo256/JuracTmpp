@@ -165,7 +165,10 @@
 
         <button class="btn" id="themeBtn" onclick="toggleTheme()">🎨 Сменить тему</button>
         <a class="btn" id="logoutBtn" href="/auth">🚪 Выйти</a>
+        <a th:href="@{/client/specialists(name=${name})}" class="btn">👀 Посмотреть специалистов</a>
     </div>
+
+
 
     <div class="side-panel" id="sidePanel">
         <h3>📋 Редактировать шаблон</h3>

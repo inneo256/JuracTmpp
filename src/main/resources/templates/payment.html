@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Оплата</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f2ef;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #222;
+        }
+
+        .methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .method {
+            display: block;
+            padding: 25px;
+            border-radius: 14px;
+            background: white;
+            border: 1px solid #dcdcdc;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .method:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .method input {
+            margin-right: 10px;
+        }
+
+        .form-block {
+            display: none;
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .form-block.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+       .row {
+    display: flex;
+    gap: 10px;
+}
+
+       .row .form-group {
+    flex: 1;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+        .btn {
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: #0a66c2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #004182;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #555;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Выберите способ оплаты</h2>
+
+    <form action="/pay" method="post">
+
+        <div class="methods">
+
+            <label class="method">
+                <input type="radio" name="paymentSystem" value="paypal" onclick="showForm('paypal')" required>
+                PayPal
+            </label>
+
+            <label class="method">
+                <input type="radio" name="paymentSystem" value="stripe" onclick="showForm('stripe')">
+                Stripe
+            </label>
+
+            <label class="method">
+                <input type="radio" name="paymentSystem" value="card" onclick="showForm('card')">
+                Банковская карта
+            </label>
+
+            <label class="method">
+                <input type="radio" name="paymentSystem" value="crypto" onclick="showForm('crypto')">
+                Crypto (BTC / USDT)
+            </label>
+
+        </div>
+
+        <!-- PayPal -->
+        <div id="paypal" class="form-block">
+            <div class="form-group">
+                <label>Email PayPal</label>
+                <input type="email">
+            </div>
+        </div>
+
+        <!-- Stripe -->
+        <div id="stripe" class="form-block">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email">
+            </div>
+            <div class="form-group">
+                <label>Card number</label>
+                <input type="text">
+            </div>
+        </div>
+
+        <!-- Card -->
+        <div id="card" class="form-block">
+            <div class="form-group">
+                <label>Номер карты</label>
+                <input type="text" placeholder="XXXX XXXX XXXX XXXX">
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Срок</label>
+                    <input type="text" placeholder="XX/XX">
+                </div>
+
+                <div class="form-group">
+                    <label>CVV</label>
+                    <input type="text" placeholder="XXX">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Имя владельца</label>
+                <input type="text" placeholder="Ivan Ivanov">
+            </div>
+        </div>
+
+        <!-- Crypto -->
+        <div id="crypto" class="form-block">
+            <div class="form-group">
+                <label>Кошелек</label>
+                <input type="text">
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Оплатить</button>
+
+    </form>
+
+    <a href="/auth" class="back">← Назад</a>
+</div>
+
+<script>
+    function showForm(id) {
+        const forms = document.querySelectorAll('.form-block');
+        forms.forEach(f => f.classList.remove('active'));
+
+        document.getElementById(id).classList.add('active');
+    }
+</script>
+
+</body>
+</html>

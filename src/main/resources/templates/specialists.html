@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Специалисты</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f2ef;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .page {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 32px;
+        }
+
+        .skills-block {
+            margin-bottom: 40px;
+        }
+
+        .skill-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0 0 18px 4px;
+            color: #1f1f1f;
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .specialist-card {
+            width: 300px;
+            min-height: 380px;
+            background: #f7f7f7;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #d9d9d9;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card-top {
+            height: 95px;
+            background: #b7c6cb;
+            position: relative;
+        }
+
+        .card-top::after {
+            content: "";
+            position: absolute;
+            right: 18px;
+            top: 0;
+            width: 42px;
+            height: 95px;
+            background: rgba(255,255,255,0.28);
+            border-radius: 0 0 30px 30px;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #ddd8d1;
+            position: absolute;
+            left: 50%;
+            top: 22px;
+            transform: translateX(-50%);
+        }
+
+        .avatar::before {
+            content: "";
+            position: absolute;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: #8ea4bd;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .avatar::after {
+            content: "";
+            position: absolute;
+            width: 78px;
+            height: 42px;
+            background: #8ea4bd;
+            border-radius: 42px 42px 18px 18px;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .card-body {
+            padding: 88px 22px 26px;
+            text-align: center;
+        }
+
+        .name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2f2f2f;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .skill {
+            font-size: 16px;
+            color: #6f6f6f;
+            line-height: 1.4;
+            min-height: 44px;
+        }
+
+        .bottom {
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: #0a66c2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background: #004182;
+        }
+
+        .request-btn {
+            margin-top: 14px;
+            padding: 8px 12px;
+            background: #0a66c2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .request-btn:hover {
+            background: #004182;
+        }
+
+        .contact-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <h2>Специалисты по категориям</h2>
+
+    <div th:each="entry : ${groupedSpecialists}" class="skills-block">
+        <div class="skill-title" th:text="${entry.key}">Категория</div>
+
+        <div class="cards">
+            <div class="specialist-card" th:each="specialist : ${entry.value}">
+                <div class="card-top">
+                    <div class="avatar"></div>
+                </div>
+
+                <div class="card-body">
+                    <div class="name" th:text="${specialist.username}">LinkedIn Member</div>
+                    <div class="skill" th:text="${specialist.skillType}">Software Engineer</div>
+
+                    <div th:if="${!specialist.approved}">
+                        <form action="/send-request" method="post">
+                            <input type="hidden" name="clientName" th:value="${clientName}">
+                            <input type="hidden" name="freelancerName" th:value="${specialist.username}">
+                            <button type="submit" class="request-btn">Отправить запрос</button>
+                        </form>
+                        <div class="contact-info">Контакты скрыты</div>
+                    </div>
+
+                    <div th:if="${specialist.approved}" class="contact-info"
+                         th:text="${specialist.contactInfo}">
+                        Контакты
+                    </div>
+                    <div th:if="${specialist.approved}" style="margin-top: 15px;">
+                        <a href="/payment-page" class="btn">Оплатить услуги</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <a href="/auth" class="btn">Назад</a>
+    </div>
+</div>
+</body>
+</html>

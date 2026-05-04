@@ -151,6 +151,46 @@
 
 </div>
 
+<form action="/update-skill" method="post">
+    <input type="hidden" name="name" th:value="${name}">
+
+    <label>Skill type:</label>
+    <input type="text" name="skillType" placeholder="Например Designer">
+
+    <button type="submit">Сохранить</button>
+</form>
+
+<form action="/update-contacts" method="post">
+    <input type="hidden" name="name" th:value="${name}">
+
+    <label>Email:</label>
+    <input type="text" name="email" placeholder="Введите email">
+
+    <label>Telegram:</label>
+    <input type="text" name="telegram" placeholder="Введите telegram">
+
+    <button type="submit" class="btn">Сохранить контакты</button>
+</form>
+<h3>📩 Входящие запросы</h3>
+
+<div th:if="${requests != null and !requests.isEmpty()}">
+    <div th:each="request : ${requests}" class="post-item">
+        <p><b>Клиент:</b> <span th:text="${request.clientName}"></span></p>
+        <p><b>Статус:</b>
+            <span th:text="${request.approved ? 'Принят' : 'Ожидает'}"></span>
+        </p>
+
+        <form th:if="${!request.approved}" action="/approve-request" method="post">
+            <input type="hidden" name="requestId" th:value="${request.id}">
+            <input type="hidden" name="name" th:value="${name}">
+            <button type="submit" class="btn">Принять</button>
+        </form>
+    </div>
+</div>
+
+<div th:if="${requests == null or requests.isEmpty()}">
+    <p>Пока нет входящих запросов.</p>
+</div>
 <script>
     let currentTheme = 'pink';
 

@@ -73,6 +73,7 @@
         </select>
     </div>
 
+
     <input type="text" id="username" placeholder="Username">
     <input type="password" id="password" placeholder="Password">
 
@@ -88,6 +89,7 @@
 
     let isLogin = true;
 
+
     toggleBtn.addEventListener('click', () => {
         isLogin = !isLogin;
 
@@ -102,6 +104,7 @@
             submitBtn.textContent = "Register";
             toggleBtn.textContent = "Switch to Login";
         }
+
     });
 
     submitBtn.addEventListener('click', () => {
@@ -114,34 +117,57 @@
             return;
         }
 
-        if(isLogin){
-            alert(`Login as ${username}`);
-            // Здесь отправка на сервер /login
-        }
-        else {
-        // Создаём форму и отправляем на сервер
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/register';
+       if(isLogin){
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/login';
 
-        const nameInput = document.createElement('input');
-        nameInput.name = 'name';
-        nameInput.value = username;
+    const nameInput = document.createElement('input');
+    nameInput.type = 'hidden';
+    nameInput.name = 'name';
+    nameInput.value = username;
 
-        const typeInput = document.createElement('input');
-        typeInput.name = 'type';
-        typeInput.value = role;
+    const passwordInput = document.createElement('input');
+    passwordInput.type = 'hidden';
+    passwordInput.name = 'password';
+    passwordInput.value = password;
 
-        form.appendChild(nameInput);
-        form.appendChild(typeInput);
-        document.body.appendChild(form);
-        form.submit();
-    }
+    form.appendChild(nameInput);
+    form.appendChild(passwordInput);
 
-        // Очистка формы
-        document.getElementById('username').value = "";
-        document.getElementById('password').value = "";
+    document.body.appendChild(form);
+    form.submit();
+}
+else {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/register';
+
+    const nameInput = document.createElement('input');
+    nameInput.type = 'hidden';
+    nameInput.name = 'name';
+    nameInput.value = username;
+
+    const passwordInput = document.createElement('input');
+    passwordInput.type = 'hidden';
+    passwordInput.name = 'password';
+    passwordInput.value = password;
+
+    const typeInput = document.createElement('input');
+    typeInput.type = 'hidden';
+    typeInput.name = 'type';
+    typeInput.value = role;
+
+    form.appendChild(nameInput);
+    form.appendChild(passwordInput);
+    form.appendChild(typeInput);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
     });
+
 </script>
 
 </body>

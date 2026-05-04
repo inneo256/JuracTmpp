@@ -105,7 +105,32 @@
     </div>
 
     <hr class="divider"/>
+    <hr class="divider"/>
 
+    <h3>📊 Аналитика фрилансеров </h3>
+
+    <div class="stat-item">
+        <span>👨‍💻 Всего </span>
+        <span class="stat-number" th:text="${total}">0</span>
+    </div>
+
+    <h4>📌 По навыкам</h4>
+
+    <div th:each="entry : ${stats}" class="stat-item">
+        <span th:text="${entry.key}">Frontend</span>
+        <span class="stat-number" th:text="${entry.value}">0</span>
+    </div>
+
+    <h4>🌳 Дерево</h4>
+
+    <pre style="
+    background: #f3f3f3;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: pre-wrap;
+" th:text="${treeText}">
+</pre>
     <button class="btn" id="themeBtn" onclick="toggleTheme()">🎨 Сменить тему</button>
     <a class="btn" id="logoutBtn" href="/auth">🚪 Выйти</a>
 </div>
