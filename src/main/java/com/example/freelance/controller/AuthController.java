@@ -6,6 +6,9 @@ import com.example.freelance.AbsractFact.ThemeFactory;
 import com.example.freelance.composite.FreelancerCompositeService;
 import com.example.freelance.facade.AuthFacade;
 import com.example.freelance.prot.PostRegistry;
+import com.example.freelance.strategy.PostSortContext;
+import com.example.freelance.strategy.SortByBudgetStrategy;
+import com.example.freelance.strategy.SortByTitleStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +18,6 @@ public class AuthController {
     private final AuthFacade authFacade;
     private final AuthService authService;
     private final FreelancerCompositeService freelancerCompositeService;
-
 
 
     public AuthController(AuthFacade authFacade,
@@ -39,10 +41,6 @@ public class AuthController {
 
 
         boolean success = authService.register(name, password, type);
-        System.out.println("REGISTER DEBUG:");
-        System.out.println("name = " + name);
-        System.out.println("password = " + password);
-        System.out.println("type = " + type);
 
         UserCreator creator;
 
@@ -66,6 +64,7 @@ public class AuthController {
 
         return creator.createDashboard(name);
     }
+
     @PostMapping("/login")
     public String loginUser(@RequestParam String name,
                             @RequestParam String password,
@@ -93,6 +92,7 @@ public class AuthController {
 
         return "freelancer_dashboard";
     }
+
     @GetMapping("/client/specialists")
     public String showFreelancers(@RequestParam String name, Model model) {
         model.addAttribute("clientName", name);
@@ -120,6 +120,7 @@ public class AuthController {
 
         return "freelancer_dashboard";
     }
+
     @PostMapping("/send-request")
     public String sendRequest(@RequestParam String clientName,
                               @RequestParam String freelancerName,
@@ -152,6 +153,7 @@ public class AuthController {
 
         return "freelancer_dashboard";
     }
+
     @GetMapping("/payment-page")
     public String paymentPage() {
         return "payment";
@@ -196,15 +198,34 @@ public class AuthController {
     }
 
     @GetMapping("/freelancer-dashboard")
-    public String freelancerDashboard(@RequestParam String name, Model model) {
+    public String freelancerDashboard(@RequestParam String name,
+                                      @RequestParam(required = false) String sort,
+                                      Model model) {
         Theme pinkTheme = ThemeFactory.getFactory("pink").createTheme();
         Theme darkTheme = ThemeFactory.getFactory("dark").createTheme();
+
+        var posts = PostRegistry.getAllPosts();
+
+        if (sort != null && !sort.isEmpty()) {
+            PostSortContext context = new PostSortContext();
+
+            if (sort.equals("budget")) {
+                context.setStrategy(new SortByBudgetStrategy());
+                posts = context.execute(posts);
+            }
+
+            if (sort.equals("title")) {
+                context.setStrategy(new SortByTitleStrategy());
+                posts = context.execute(posts);
+            }
+        }
 
         model.addAttribute("name", name);
         model.addAttribute("pinkTheme", pinkTheme);
         model.addAttribute("darkTheme", darkTheme);
-        model.addAttribute("posts", PostRegistry.getAllPosts());
+        model.addAttribute("posts", posts);
         model.addAttribute("requests", authService.getRequestsForFreelancer(name));
+        model.addAttribute("selectedSort", sort);
 
         return "freelancer_dashboard";
     }

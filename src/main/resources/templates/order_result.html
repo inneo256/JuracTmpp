@@ -22,6 +22,8 @@
     <p th:if="${order.price != null}"><b>Цена:</b> <span th:text="${order.price}"></span></p>
     <p th:if="${order.deadline != null}"><b>Срок:</b> <span th:text="${order.deadline}"></span></p>
     <a class="btn" href="/auth">🚪 Выйти</a>
+    <!--<a th:href="@{/freelancer-dashboard(name=${name})}" class="btn">-->
+
 </div>
 </body>
 </html>

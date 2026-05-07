@@ -132,13 +132,14 @@
 
         <button class="btn" id="createBtn" onclick="toggleForm()">📝 Создать заказ</button>
 
-        <div class="order-form" id="orderForm">
-            <input type="text" id="title" placeholder="Название заказа *"/>
-            <input type="text" id="description" placeholder="Описание *"/>
-            <input type="number" id="price" placeholder="Цена (необязательно)"/>
-            <input type="text" id="deadline" placeholder="Срок (необязательно)"/>
-            <button class="btn" id="submitBtn" onclick="submitOrder()">✅ Отправить заказ</button>
-        </div>
+        <form class="order-form" id="orderForm" action="/create-order" method="post">
+            <input type="text" name="title" placeholder="Название заказа *"/>
+            <input type="text" name="description" placeholder="Описание *"/>
+            <input type="text" name="skills" placeholder="Необходимые навыки, например Java">
+            <input type="number" name="price" placeholder="Цена (необязательно)"/>
+            <input type="text" name="deadline" placeholder="Срок (необязательно)"/>
+            <button type="submit" class="btn" id="submitBtn">✅ Отправить заказ</button>
+        </form>
 
         <h3>📋 Заказы:</h3>
         <div class="posts-list">
@@ -166,6 +167,7 @@
         <button class="btn" id="themeBtn" onclick="toggleTheme()">🎨 Сменить тему</button>
         <a class="btn" id="logoutBtn" href="/auth">🚪 Выйти</a>
         <a th:href="@{/client/specialists(name=${name})}" class="btn">👀 Посмотреть специалистов</a>
+        <a href="/client-project" class="btn">📦 Управление проектом</a>
     </div>
 
 

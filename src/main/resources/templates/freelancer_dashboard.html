@@ -111,7 +111,20 @@
 
         <input type="text" placeholder="🔍 Поиск заказов..."/>
         <button class="btn" id="actionBtn">Найти заказы</button>
+        <a href="/portfolio" class="btn"> Моё портфолио</a>
+        <a href="/freelancer-project" class="btn">📦 Мой проект</a>
 
+        <form action="/freelancer-dashboard" method="get">
+            <input type="hidden" name="name" th:value="${name}">
+
+            <select name="sort">
+                <option value="">Без сортировки</option>
+                <option value="budget">По бюджету</option>
+                <option value="title">По названию</option>
+            </select>
+
+            <button type="submit" class="btn">🔽 Сортировать</button>
+        </form>
         <h3>📋 Доступные заказы:</h3>
         <div class="posts-list">
             <div class="post-item" th:each="post, stat : ${posts}">
@@ -129,7 +142,7 @@
                 </button>
             </div>
         </div>
-
+        <a th:href="@{/notifications(name=${name})}" class="btn">🔔 Уведомления</a>
         <button class="btn" id="themeBtn" onclick="toggleTheme()">🎨 Сменить тему</button>
         <a class="btn" id="logoutBtn" href="/auth">🚪 Выйти</a>
     </div>

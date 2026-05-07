@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Кабинет админа</title>
+
     <script th:inline="javascript">
         const themes = {
             pink: {
@@ -19,6 +20,7 @@
             }
         };
     </script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,13 +32,15 @@
             padding: 40px 20px;
             transition: background 0.3s, color 0.3s;
         }
+
         .card {
             padding: 40px;
             border-radius: 12px;
-            width: 450px;
+            width: 500px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
             transition: background 0.3s;
         }
+
         .stat-item {
             display: flex;
             justify-content: space-between;
@@ -47,15 +51,18 @@
             border: 1px solid #ddd;
             font-size: 15px;
         }
+
         .stat-number {
             font-size: 24px;
             font-weight: bold;
         }
+
         .divider {
             border: none;
             border-top: 1px solid #ccc;
             margin: 20px 0;
         }
+
         .btn {
             color: white;
             border: none;
@@ -71,10 +78,34 @@
             text-decoration: none;
             transition: background 0.3s;
         }
+
+        .admin-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+
+        .command-box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .command-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
+
 <body id="body">
+
 <div class="card" id="card">
+
     <h2>🛠 Кабинет администратора</h2>
     <p>Статистика сайта в реальном времени</p>
 
@@ -84,10 +115,12 @@
         <span>👨‍💻 Фрилансеров</span>
         <span class="stat-number" th:text="${freelancerCount}">0</span>
     </div>
+
     <div class="stat-item">
         <span>💼 Клиентов</span>
         <span class="stat-number" th:text="${clientCount}">0</span>
     </div>
+
     <div class="stat-item">
         <span>👥 Всего пользователей</span>
         <span class="stat-number" th:text="${totalUsers}">0</span>
@@ -99,18 +132,18 @@
         <span>📋 Заказов создано</span>
         <span class="stat-number" th:text="${orderCount}">0</span>
     </div>
+
     <div class="stat-item">
         <span>📋 Шаблонов склонировано</span>
         <span class="stat-number" th:text="${cloneCount}">0</span>
     </div>
 
     <hr class="divider"/>
-    <hr class="divider"/>
 
-    <h3>📊 Аналитика фрилансеров </h3>
+    <h3>📊 Аналитика фрилансеров</h3>
 
     <div class="stat-item">
-        <span>👨‍💻 Всего </span>
+        <span>👨‍💻 Всего</span>
         <span class="stat-number" th:text="${total}">0</span>
     </div>
 
@@ -124,15 +157,140 @@
     <h4>🌳 Дерево</h4>
 
     <pre style="
-    background: #f3f3f3;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 13px;
-    white-space: pre-wrap;
-" th:text="${treeText}">
-</pre>
+        background: #f3f3f3;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 13px;
+        white-space: pre-wrap;
+    " th:text="${treeText}">
+    </pre>
+
+    <hr class="divider"/>
+
+    <h3>⚙️ Команды администратора</h3>
+
+    <div th:if="${commandMessage != null}" class="stat-item">
+        <span th:text="${commandMessage}"></span>
+    </div>
+
+    <div class="command-box">
+        <div class="command-title">🚫 Управление блокировкой</div>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="blockUser">
+            <input type="text" name="target" class="admin-input" placeholder="Имя пользователя">
+            <button type="submit" class="btn">🚫 Заблокировать пользователя</button>
+        </form>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="unblockUser">
+            <input type="text" name="target" class="admin-input" placeholder="Имя пользователя">
+            <button type="submit" class="btn">↩ Разблокировать пользователя</button>
+        </form>
+    </div>
+
+    <div class="command-box">
+        <div class="command-title">🗑 Управление проектом</div>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="deleteProject">
+            <input type="text" name="target" class="admin-input" placeholder="Название проекта">
+            <button type="submit" class="btn">🗑 Удалить проект</button>
+        </form>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="restoreProject">
+            <input type="text" name="target" class="admin-input" placeholder="Название проекта">
+            <button type="submit" class="btn">↩ Восстановить проект</button>
+        </form>
+    </div>
+
+    <div class="command-box">
+        <div class="command-title">💸 Финансы</div>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="refundMoney">
+            <input type="text" name="target" class="admin-input" placeholder="Имя пользователя">
+            <button type="submit" class="btn">💸 Вернуть деньги</button>
+        </form>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="cancelRefund">
+            <input type="text" name="target" class="admin-input" placeholder="Имя пользователя">
+            <button type="submit" class="btn">↩ Отменить возврат</button>
+        </form>
+    </div>
+
+    <div class="command-box">
+        <div class="command-title">⚠ Предупреждения</div>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="warnUser">
+            <input type="text" name="target" class="admin-input" placeholder="Имя пользователя">
+            <button type="submit" class="btn">⚠ Выдать предупреждение</button>
+        </form>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="removeWarning">
+            <input type="text" name="target" class="admin-input" placeholder="Имя пользователя">
+            <button type="submit" class="btn">↩ Снять предупреждение</button>
+        </form>
+    </div>
+
+    <div class="command-box">
+        <div class="command-title">📝 Отзывы</div>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="deleteReview">
+            <input type="text" name="target" class="admin-input" placeholder="Название / ID отзыва">
+            <button type="submit" class="btn">📝 Удалить отзыв</button>
+        </form>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="restoreReview">
+            <input type="text" name="target" class="admin-input" placeholder="Название / ID отзыва">
+            <button type="submit" class="btn">↩ Восстановить отзыв</button>
+        </form>
+    </div>
+
+    <div class="command-box">
+        <div class="command-title">🔒 Споры</div>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="closeDispute">
+            <input type="text" name="target" class="admin-input" placeholder="Название / ID спора">
+            <button type="submit" class="btn">🔒 Закрыть спор</button>
+        </form>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="reopenDispute">
+            <input type="text" name="target" class="admin-input" placeholder="Название / ID спора">
+            <button type="submit" class="btn">↩ Открыть спор снова</button>
+        </form>
+    </div>
+
+    <div class="command-box">
+        <div class="command-title">✔ Верификация компании</div>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="verifyCompany">
+            <input type="text" name="target" class="admin-input" placeholder="Название компании">
+            <button type="submit" class="btn">✔ Верифицировать компанию</button>
+        </form>
+
+        <form action="/admin/command" method="post">
+            <input type="hidden" name="commandType" value="removeCompanyVerification">
+            <input type="text" name="target" class="admin-input" placeholder="Название компании">
+            <button type="submit" class="btn">↩ Снять галочку компании</button>
+        </form>
+    </div>
+
+    <hr class="divider"/>
+
     <button class="btn" id="themeBtn" onclick="toggleTheme()">🎨 Сменить тему</button>
+
     <a class="btn" id="logoutBtn" href="/auth">🚪 Выйти</a>
+
 </div>
 
 <script>
@@ -140,9 +298,11 @@
 
     function applyTheme(themeName) {
         const t = themes[themeName];
+
         document.getElementById('body').style.background = t.background;
         document.getElementById('body').style.color = t.textColor;
         document.getElementById('card').style.background = t.cardBackground;
+
         document.querySelectorAll('.btn').forEach(btn => {
             btn.style.background = t.buttonColor;
         });
@@ -155,5 +315,6 @@
 
     applyTheme(currentTheme);
 </script>
+
 </body>
 </html>

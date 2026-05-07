@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Проект фрилансера</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2ff;
+            margin: 0;
+            padding: 40px 20px;
+            color: #2d2d3a;
+        }
+
+        .card {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .status {
+            background: #dde3ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #b9c4f5;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            color: white;
+            background: #6d7fd6;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .btn:hover {
+            background: #5b6cc4;
+        }
+
+        .info {
+            background: #f5f6ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #c7cef7;
+        }
+
+        .disabled-text {
+            opacity: 0.7;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <h2>👨‍💻 Проект фрилансера</h2>
+
+    <div class="status">
+        Текущий статус:
+        <b th:text="${project.stateName}"></b>
+    </div>
+
+    <div class="info">
+        <p><b>Название:</b> <span th:text="${project.projectTitle}"></span></p>
+        <p><b>Описание:</b> <span th:text="${project.description}"></span></p>
+        <p><b>Аванс:</b> <span th:text="${project.advance}"></span></p>
+        <p><b>Исполнитель:</b> <span th:text="${project.freelancerName}"></span></p>
+        <p><b>Отправленная часть:</b> <span th:text="${project.projectPart}"></span></p>
+    </div>
+
+    <div th:if="${project.canFreelancerSendPart()}">
+        <form action="/project/send-part" method="post">
+            <textarea name="projectPart" rows="5"
+                      placeholder="Опишите выполненную часть проекта..."
+                      th:text="${project.projectPart}"></textarea>
+
+            <button type="submit" class="btn">📤 Отправить часть проекта</button>
+        </form>
+    </div>
+
+    <form th:if="${project.canFreelancerSendToReview()}" action="/project/send-review" method="post">
+        <button type="submit" class="btn">✅ Отправить проект на проверку</button>
+    </form>
+
+    <p class="disabled-text" th:if="${project.stateName == 'Создан'}">
+        Клиент ещё не выбрал исполнителя и не запустил проект.
+    </p>
+
+    <p class="disabled-text" th:if="${project.stateName == 'На проверке'}">
+        Проект отправлен на проверку. Ожидайте решения клиента.
+    </p>
+
+    <p class="disabled-text" th:if="${project.stateName == 'Завершён'}">
+        Проект завершён.
+    </p>
+
+    <p class="disabled-text" th:if="${project.stateName == 'Спор'}">
+        По проекту открыт спор.
+    </p>
+
+    <p class="disabled-text" th:if="${project.stateName == 'Отменён'}">
+        Проект отменён.
+    </p>
+
+    <a href="/freelancer-dashboard?name=freelancer" class="btn">⬅ Назад в кабинет фрилансера</a>
+
+</div>
+
+</body>
+</html>

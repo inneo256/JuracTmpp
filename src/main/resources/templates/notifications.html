@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Уведомления</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8eaf1;
+            margin: 0;
+            padding: 40px 20px;
+            color: #3a2a33;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff7fb;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .notification {
+            background: #f3d6e3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+
+        .empty {
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .btn {
+            display: block;
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            background: #d86f9f;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: #c85d8f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🔔 Уведомления</h2>
+
+    <div th:if="${notifications == null or notifications.isEmpty()}" class="empty">
+        <p>Пока нет уведомлений</p>
+    </div>
+
+    <div th:each="n : ${notifications}" class="notification">
+        <p th:text="${n}"></p>
+    </div>
+
+    <a th:href="@{/freelancer-dashboard(name=${name})}" class="btn">
+        ⬅ Назад в кабинет
+    </a>
+</div>
+
+</body>
+</html>
